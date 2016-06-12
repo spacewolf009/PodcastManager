@@ -67,8 +67,9 @@ namespace PodcastManager
             }
         }
 
-        public void DownloadNewContent()
+        public  IEnumerable<Episode> DownloadQueue
         {
+            get {return Episodes.Where(x => !x.IsDownloaded && !x.Played);}
         }
 
         public override string ToString()
@@ -81,45 +82,45 @@ namespace PodcastManager
             return String.Format(podcastPathBase, this.PodcastName);
         }
 
-        public void SaveEpisodes() 
-        {
-            Stream output = File.Create(PodcastPath() + "history.xml");
-            try
-            {
-                XmlSerializer s = new XmlSerializerFactory().CreateSerializer(typeof(List<Episode>));
-                s.Serialize(output, this.Episodes);
+        //public void SaveEpisodes() 
+        //{
+        //    Stream output = File.Create(PodcastPath() + "history.xml");
+        //    try
+        //    {
+        //        XmlSerializer s = new XmlSerializerFactory().CreateSerializer(typeof(List<Episode>));
+        //        s.Serialize(output, this.Episodes);
 
-            }
-            //catch (Exception e)
-            //{
-            //    throw e;
-            //}
-            finally
-            {
-                output.Close();
-            }
-        }
+        //    }
+        //    //catch (Exception e)
+        //    //{
+        //    //    throw e;
+        //    //}
+        //    finally
+        //    {
+        //        output.Close();
+        //    }
+        //}
 
-        public void LoadEpisodes() 
-        {
-            if (File.Exists(PodcastPath() + "history.xml")) 
-            {
-                XmlReader input = XmlReader.Create(PodcastPath() + "history.xml");
-                try
-                {
-                    XmlSerializer s = new XmlSerializerFactory().CreateSerializer(typeof(List<Episode>));
-                    var d = s.Deserialize(input);
-                    Episodes = (List<Episode>)d;
-                }
-                catch
-                {
-                    System.Diagnostics.Debug.WriteLine("Error during deserialization");
-                }
-                finally
-                {
-                    input.Close();
-                }
-            }
-        }
+        //public void LoadEpisodes() 
+        //{
+        //    if (File.Exists(PodcastPath() + "history.xml")) 
+        //    {
+        //        XmlReader input = XmlReader.Create(PodcastPath() + "history.xml");
+        //        try
+        //        {
+        //            XmlSerializer s = new XmlSerializerFactory().CreateSerializer(typeof(List<Episode>));
+        //            var d = s.Deserialize(input);
+        //            Episodes = (List<Episode>)d;
+        //        }
+        //        catch
+        //        {
+        //            System.Diagnostics.Debug.WriteLine("Error during deserialization");
+        //        }
+        //        finally
+        //        {
+        //            input.Close();
+        //        }
+        //    }
+        //}
     }
 }

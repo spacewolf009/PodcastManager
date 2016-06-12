@@ -6,6 +6,7 @@ using PodcastManager.Properties;
 using System.IO;
 using System.Xml.Serialization;
 using System.Xml;
+using System.Threading;
 
 namespace PodcastManager
 {
@@ -22,6 +23,21 @@ namespace PodcastManager
         static FeedList Feeds = new FeedList();
 
         public static IEnumerable<PodcastFeed> FeedList { get { return Feeds.Feeds.AsReadOnly(); } }
+
+        public static void DownloadNewContent()
+        {
+            //IEnumerable<IEnumerable<Episode>> l = Feeds.Feeds.ConvertAll<IEnumerable<Episode>>(f => f.DownloadQueue);
+            IEnumerable<Episode> downloadQueue = Feeds.Feeds.ConvertAll<IEnumerable<Episode>>(f => f.DownloadQueue).Aggregate(
+                new List<Episode>().AsEnumerable(), (x, y)=>x.Union(y));
+            //ThreadPool.QueueUserWorkItem();
+
+            Console.WriteLine("\nDownload Queue:");
+            foreach (Episode ep in downloadQueue)
+            {
+                Console.WriteLine(ep.ToString());
+            }
+            downloadQueue.AsParallel().ForAll(x=>x.Download());
+        }
 
         /// <summary>
         /// Load rss feed information from file

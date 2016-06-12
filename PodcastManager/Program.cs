@@ -73,6 +73,7 @@ namespace PodcastManager
             {
                 f.CheckForUpdates();
             }
+            FeedManager.DownloadNewContent();
         }
     }
 }

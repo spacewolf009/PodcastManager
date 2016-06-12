@@ -6,6 +6,7 @@ using System.IO;
 using PodcastManager.Properties;
 using System.Net;
 using System.Xml.Serialization;
+using System.Text.RegularExpressions;
 
 namespace PodcastManager
 {
@@ -41,7 +42,7 @@ namespace PodcastManager
         static string episodePathBase = Resources.DataPath + @"{0}\{1}";
         public String URL;
         public String EpisodeName;
-        PodcastFeed Podcast;
+        public String PodcastName;
         public DateTime PublicationDate;
         public bool Played = false;
 
@@ -53,26 +54,35 @@ namespace PodcastManager
             URL = url;
             EpisodeName = name;
             PublicationDate = date;
-            Podcast = p;
+            PodcastName = p.PodcastName;
         }
 
         string EpisodePath()
         {
-            return String.Format(episodePathBase, Podcast.PodcastName, EpisodeName);
+            return String.Format(episodePathBase, PodcastName, EpisodeName);
         }
 
         public void Download()
         {
             if (!IsDownloaded)
             {
-                Console.WriteLine("Downloading " + EpisodeName);
+                // Extract file extension from url and append to filename
+                //string fileExtension = Regex.Match(URL, "\\..*$").Value;
+
+                Console.WriteLine("Started downloading " + EpisodeName);
                 WebClient downloader = new WebClient();
-                downloader.DownloadFile(URL, EpisodePath());
+                downloader.DownloadFile(URL, EpisodePath() + fileExtension);
+                Console.WriteLine("Finished downloading " + EpisodeName);
             }
             else
             {
                 Console.WriteLine("Cancelled duplicate download of " + EpisodeName);
             }
+        }
+
+        public override string ToString()
+        {
+            return EpisodeName + " - " + PodcastName;
         }
 
         public override bool Equals(object obj)
@@ -82,7 +92,7 @@ namespace PodcastManager
             else
             {
                 Episode that = obj as Episode;
-                return that.PublicationDate == this.PublicationDate && that.EpisodeName == this.EpisodeName && this.URL == that.URL;
+                return this.URL == that.URL;
             }
         }
     }
