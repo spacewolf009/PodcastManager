@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace PodcastManager
 {
@@ -20,6 +21,10 @@ namespace PodcastManager
                 switch (userChoice)
                 {
                     case 1: AddPocast();
+                        break;
+                    case 2: Update();
+                        break;
+                    case 3: ListPodcasts();
                         break;
                     default: break;
                 }
@@ -61,6 +66,12 @@ namespace PodcastManager
             {
                 Console.WriteLine(f.ToString());
             }
+        }
+        public static void Update()
+        {
+            var url = FeedManager.FeedList.First().URL;
+            XmlReader reader = XmlReader.Create(url);
+            Console.WriteLine(reader.NodeType);
         }
     }
 }

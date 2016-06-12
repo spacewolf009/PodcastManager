@@ -8,9 +8,9 @@ namespace PodcastManager
     [Serializable]
     public class Feed
     {
-        string URL;
-        DateTime? LastUpdate;
-        string PodcastName;
+        public string URL;
+        public DateTime? LastUpdate;
+        public string PodcastName;
 
         public Feed()
         {

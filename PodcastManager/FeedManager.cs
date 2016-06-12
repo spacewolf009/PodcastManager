@@ -5,28 +5,37 @@ using System.Text;
 using PodcastManager.Properties;
 using System.IO;
 using System.Xml.Serialization;
+using System.Xml;
 
 namespace PodcastManager
 {
+    [Serializable]
+    public class FeedList {
+        [XmlArray]
+        public List<Feed> Feeds = new List<Feed>();
+    }
     static class FeedManager
-    { 
-        static List<Feed> Feeds;
+    {
 
-        public static IEnumerable<Feed> FeedList { get { return Feeds.AsReadOnly(); } }
+        static FeedList Feeds = new FeedList();
+
+        public static IEnumerable<Feed> FeedList { get { return Feeds.Feeds.AsReadOnly(); } }
 
         /// <summary>
         /// Load rss feed information from file
         /// </summary>
         public static void LoadFeedDetails()
         {
-            Stream input = File.Create(Resources.DataPath + "data.xml");
+            XmlReader input = XmlReader.Create(Resources.DataPath + "data.xml");
             try
             {
-                FeedManager.Feeds = (List<Feed>)new XmlSerializerFactory().CreateSerializer(typeof(List<Feed>)).Deserialize(input);
+                XmlSerializer s = new XmlSerializerFactory().CreateSerializer(typeof(FeedList));
+                var d = s.Deserialize(input);
+                Feeds = (FeedList)d;
             }
-            catch
-            {
-            }
+            //catch
+            //{
+            //}
             finally
             {
                 input.Close();
@@ -41,11 +50,14 @@ namespace PodcastManager
             Stream output = File.Create(Resources.DataPath + "data.xml");
             try
             {
-                new XmlSerializerFactory().CreateSerializer(typeof(List<Feed>)).Serialize(output, FeedManager.Feeds);
+                XmlSerializer s = new XmlSerializerFactory().CreateSerializer(typeof(FeedList));
+                s.Serialize(output, Feeds);
+                
             }
-            catch 
-            {
-            }
+            //catch (Exception e)
+            //{
+            //    throw e;
+            //}
             finally
             {
                 output.Close();
@@ -54,7 +66,7 @@ namespace PodcastManager
 
         public static void AddPodcast(string url, string name)
         {
-            Feeds.Add(new Feed(url, name));
+            Feeds.Feeds.Add(new Feed(url, name));
         }
     }
 }
