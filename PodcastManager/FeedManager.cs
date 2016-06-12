@@ -12,14 +12,14 @@ namespace PodcastManager
     [Serializable]
     public class FeedList {
         [XmlArray]
-        public List<Feed> Feeds = new List<Feed>();
+        public List<PodcastFeed> Feeds = new List<PodcastFeed>();
     }
     static class FeedManager
     {
 
         static FeedList Feeds = new FeedList();
 
-        public static IEnumerable<Feed> FeedList { get { return Feeds.Feeds.AsReadOnly(); } }
+        public static IEnumerable<PodcastFeed> FeedList { get { return Feeds.Feeds.AsReadOnly(); } }
 
         /// <summary>
         /// Load rss feed information from file
@@ -33,9 +33,10 @@ namespace PodcastManager
                 var d = s.Deserialize(input);
                 Feeds = (FeedList)d;
             }
-            //catch
-            //{
-            //}
+            catch
+            {
+                System.Diagnostics.Debug.WriteLine("Error during deserialization");
+            }
             finally
             {
                 input.Close();
@@ -66,7 +67,7 @@ namespace PodcastManager
 
         public static void AddPodcast(string url, string name)
         {
-            Feeds.Feeds.Add(new Feed(url, name));
+            Feeds.Feeds.Add(new PodcastFeed(url, name));
         }
     }
 }

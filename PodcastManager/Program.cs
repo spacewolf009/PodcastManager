@@ -62,14 +62,14 @@ namespace PodcastManager
 
         public static void ListPodcasts()
         {
-            foreach (Feed f in FeedManager.FeedList)
+            foreach (PodcastFeed f in FeedManager.FeedList)
             {
                 Console.WriteLine(f.ToString());
             }
         }
         public static void Update()
         {
-            foreach (Feed f in FeedManager.FeedList)
+            foreach (PodcastFeed f in FeedManager.FeedList)
             {
                 f.CheckForUpdates();
             }
