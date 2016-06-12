@@ -10,10 +10,12 @@ using System.Xml;
 namespace PodcastManager
 {
     [Serializable]
-    public class FeedList {
+    public class FeedList
+    {
         [XmlArray]
         public List<PodcastFeed> Feeds = new List<PodcastFeed>();
     }
+
     static class FeedManager
     {
 
@@ -33,14 +35,18 @@ namespace PodcastManager
                 var d = s.Deserialize(input);
                 Feeds = (FeedList)d;
             }
-            catch
-            {
-                System.Diagnostics.Debug.WriteLine("Error during deserialization");
-            }
+            //catch
+            //{
+            //    System.Diagnostics.Debug.WriteLine("Error during deserialization");
+            //}
             finally
             {
                 input.Close();
             }
+
+            //foreach (PodcastFeed p in Feeds) {
+            //    p.LoadEpisodes();
+            //}
         }
 
         /// <summary>
@@ -63,6 +69,10 @@ namespace PodcastManager
             {
                 output.Close();
             }
+            //foreach (PodcastFeed p in Feeds)
+            //{
+            //    p.SaveEpisodes();
+            //}
         }
 
         public static void AddPodcast(string url, string name)

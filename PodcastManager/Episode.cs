@@ -9,32 +9,41 @@ using System.Xml.Serialization;
 
 namespace PodcastManager
 {
-    [Serializable]
-    public class EpisodeList
-    {
-        [XmlArray]
-        public List<Episode> Episodes = new List<Episode>();
-        public void Add(Episode ep) {
-            Episodes.Add(ep);
-        }
+    //[Serializable]
+    //public class EpisodeList
+    //{
+    //    [XmlArray]
+    //    public List<Episode> Episodes = new List<Episode>();
         
-        public Episode indexer(int index) {
-            return Episodes[index];
-        }
+        
 
-        public int Count()
-        {
-            return Episodes.Count;
-        }
-    }
+    //    public bool Add(Episode ep) {
+    //        if (!Episodes.Contains(ep))
+    //        {
+    //            Episodes.Add(ep);
+    //            return true;
+    //        }
+    //        return false;
+    //    }
+        
+    //    public Episode indexer(int index) {
+    //        return Episodes[index];
+    //    }
+
+    //    public int Count
+    //    {
+    //        get { return Episodes.Count; }
+    //    }
+    //}
     [Serializable]
     public class Episode
     {
         static string episodePathBase = Resources.DataPath + @"{0}\{1}";
-        String URL;
-        String EpisodeName;
+        public String URL;
+        public String EpisodeName;
         PodcastFeed Podcast;
-        DateTime PublicationDate;
+        public DateTime PublicationDate;
+        public bool Played = false;
 
         public bool IsDownloaded { get { return File.Exists(EpisodePath()); } }
 
@@ -63,6 +72,17 @@ namespace PodcastManager
             else
             {
                 Console.WriteLine("Cancelled duplicate download of " + EpisodeName);
+            }
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is Episode))
+                return false;
+            else
+            {
+                Episode that = obj as Episode;
+                return that.PublicationDate == this.PublicationDate && that.EpisodeName == this.EpisodeName && this.URL == that.URL;
             }
         }
     }

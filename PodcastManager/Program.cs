@@ -52,7 +52,7 @@ namespace PodcastManager
             int userChoice = 0;
             while (userChoice <= 0)
             {
-                Console.WriteLine("1. Add new podcast\n2. Check for new content\n3. List Podcasts\n4.Quit");
+                Console.WriteLine("1. Add new podcast\n2. Check for new content\n3. List Podcasts\n4. Quit");
 
                 int.TryParse(Console.ReadLine(), out userChoice);
                 if (userChoice > 4) userChoice = 0;
