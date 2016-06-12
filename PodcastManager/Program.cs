@@ -69,9 +69,10 @@ namespace PodcastManager
         }
         public static void Update()
         {
-            var url = FeedManager.FeedList.First().URL;
-            XmlReader reader = XmlReader.Create(url);
-            Console.WriteLine(reader.NodeType);
+            foreach (Feed f in FeedManager.FeedList)
+            {
+                f.CheckForUpdates();
+            }
         }
     }
 }

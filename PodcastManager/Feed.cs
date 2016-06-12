@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml;
 
 namespace PodcastManager
 {
@@ -23,11 +24,25 @@ namespace PodcastManager
             LastUpdate = null;
         }
 
-        void CheckForUpdates()
+        public void CheckForUpdates()
         {
+            Console.WriteLine("Updating " + this.PodcastName + "...");
+            XmlDocument doc = new XmlDocument();
+            doc.Load(URL);
+            {
+                var channel = doc.SelectSingleNode("rss").SelectSingleNode("channel");
+                var items = channel.SelectNodes("item");
+                foreach (XmlNode n in items)
+                {
+                    Console.WriteLine(n.SelectSingleNode("title").InnerText);
+                    Console.WriteLine(n.SelectSingleNode("enclosure").Attributes.GetNamedItem("url").Value);
+                    Console.WriteLine(n.SelectSingleNode("pubDate").InnerText);
+                    break;
+                }
+            }
         }
 
-        void DownloadNewContent()
+        public void DownloadNewContent()
         {
         }
 
