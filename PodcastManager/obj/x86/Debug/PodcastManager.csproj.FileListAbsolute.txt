@@ -1,0 +1,6 @@
+C:\Users\Duncan\Projects\PodcastManager\PodcastManager\bin\Debug\PodcastManager.exe
+C:\Users\Duncan\Projects\PodcastManager\PodcastManager\bin\Debug\PodcastManager.pdb
+C:\Users\Duncan\Projects\PodcastManager\PodcastManager\obj\x86\Debug\PodcastManager.Properties.Resources.resources
+C:\Users\Duncan\Projects\PodcastManager\PodcastManager\obj\x86\Debug\PodcastManager.csproj.GenerateResource.Cache
+C:\Users\Duncan\Projects\PodcastManager\PodcastManager\obj\x86\Debug\PodcastManager.exe
+C:\Users\Duncan\Projects\PodcastManager\PodcastManager\obj\x86\Debug\PodcastManager.pdb
