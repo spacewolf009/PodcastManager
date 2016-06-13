@@ -67,11 +67,12 @@ namespace PodcastManager
             if (!IsDownloaded)
             {
                 // Extract file extension from url and append to filename
-                //string fileExtension = Regex.Match(URL, "\\..*$").Value;
+                var splitUrl = URL.Split('.');
+                var fileExtension = splitUrl[splitUrl.Length - 1];
 
                 Console.WriteLine("Started downloading " + EpisodeName);
                 WebClient downloader = new WebClient();
-                downloader.DownloadFile(URL, EpisodePath() + fileExtension);
+                downloader.DownloadFile(URL, EpisodePath() + '.' + fileExtension);
                 Console.WriteLine("Finished downloading " + EpisodeName);
             }
             else
